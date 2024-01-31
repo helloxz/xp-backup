@@ -28,4 +28,4 @@ clean(){
 }
 
 # 运行
-install_soft && install_restic && clean
+install_soft && clean
