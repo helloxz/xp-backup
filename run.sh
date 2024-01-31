@@ -34,6 +34,7 @@ run(){
     # 启动cron
     crontab /etc/cron.d/xp-backup
     # 查看日志
+    touch /var/log/xp-backup.log
     tail -f /var/log/xp-backup.log
 }
 
