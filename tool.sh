@@ -5,6 +5,8 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin:/usr/local/mysql/bin
 export PATH
 
+# 进入运行目录
+cd /opt/xp-backup
 #导入环境变量
 . data/.env
 

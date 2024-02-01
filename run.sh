@@ -31,8 +31,10 @@ run(){
     echo "${CRON_TIME_DIR} root cd /opt/xp-backup && ./restic_backup.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
     # 赋予执行权限
     chmod 0644 /etc/cron.d/xp-backup
-    # 启动cron
+    # 添加计划任务
     crontab /etc/cron.d/xp-backup
+    # 启动计划任务
+    /etc/init.d/cron start
     # 查看日志
     touch /var/log/xp-backup.log
     tail -f /var/log/xp-backup.log

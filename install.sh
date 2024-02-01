@@ -14,6 +14,8 @@ install_soft(){
     chmod +x *.sh
     # 创建数据目录
     mkdir -p ./data
+    # 设置环境变量
+    echo 'export PATH="$PATH:/opt/xp-backup"' >> /etc/profile
 }
 
 
