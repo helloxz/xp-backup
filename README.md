@@ -79,7 +79,9 @@ CRON_TIME_MYSQL="0 2 * * *"
 CRON_TIME_DIR="0 3 * * *"
 ```
 
-** `.restic_pass` 密码文件：** 需要自行设置一个复制的字符串，默认为：`xp_backup_password`，一旦设置后，请不要随意修改。
+** `.restic_pass` 密码文件：** 
+
+需要自行设置一个复制的字符串，默认为：`xp_backup_password`，一旦设置后，请不要随意修改。
 
 `.env`和`.restic_pass`设置完毕后，输入命令：`docker-compose restart`重启一次容器，至此已经全部设置完毕，容器将根据您的定时任务定期将MySQL数据库和文件数据加密备份至AWS S3
 
