@@ -16,6 +16,7 @@ install_soft(){
     mkdir -p ./data
     # 设置环境变量
     echo 'export PATH="$PATH:/opt/xp-backup"' >> /etc/profile
+    export PATH="$PATH:/opt/xp-backup"
 }
 
 
