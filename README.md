@@ -89,6 +89,8 @@ CRON_TIME_DIR="0 3 * * *"
 
 ### 常用命令
 
+* 立即备份MySQL：`docker exec -it xp-backup backup_mysql.sh`
+* 立即备份文件数据：`docker exec -it xp-backup restic_backup.sh`
 * 查看备份列表：`docker exec -it xp-backup tool.sh list`
 * 清理并保留最近60个快照：`docker exec -it xp-backup tool.sh clear`
 * 将指定快照恢复到指定目录下：`docker exec -it xp-backup tool.sh restore snapshot_id target_path`
