@@ -27,7 +27,7 @@ ARG2=$2
 ARG3=$3
 
 #初始化存储,格式为：s3.us-west-002.backblazeb2.com/bucket_name/dir
-S3_PATH=${AWS_S3_URL}:/$AWS_BUCKET_NAME/${new_hostname}
+S3_PATH=${AWS_S3_URL}/$AWS_BUCKET_NAME/${new_hostname}
 
 
 

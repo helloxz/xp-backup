@@ -22,7 +22,7 @@ restic_backup(){
     # echo ${RESTIC_PASSWORD} > ./data/.restic_pass
     
 	#初始化存储,格式为：s3.us-west-002.backblazeb2.com/bucket_name/dir
-    S3_PATH=${AWS_S3_URL}:/$AWS_BUCKET_NAME/${new_hostname}
+    S3_PATH=${AWS_S3_URL}/$AWS_BUCKET_NAME/${new_hostname}
 	restic -r s3:${S3_PATH} init
 	#备份数据
     # 需要备份的目录
