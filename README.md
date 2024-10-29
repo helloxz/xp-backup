@@ -8,6 +8,7 @@
 * 增量备份
 * 自动备份MySQL数据库
 * 支持添加多个备份路径
+* 支持备份到S3或SFTP
 * 支持路径排除
 * 支持快捷命令查看备份列表（快照）
 * 支持快捷命令自动恢复指定备份（快照）
@@ -34,7 +35,8 @@ services:
      - /data/apps:/opt/xp-backup/backup/apps
      - /data/backup/mysql:/opt/xp-backup/backup/mysql
      # 如果使用SFTP备份方式，还需要挂载私钥文件
-     # - ./id_rsa:~/.ssh/id_rsa
+     # - ./id_rsa:/root/.ssh/id_rsa
+     # ~/.ssh/known_hosts:/root/.ssh/known_hosts:ro
    network_mode: "host"
 ```
 
@@ -48,7 +50,7 @@ services:
 * `.env`:环境变量文件
 * `.restic_pass`: restic密码文件（加密备份和解密需要）
 
-您可以输入命令`ls -al`来查看这2个文件，首次运行后自动生成这2个文件，然后停止容器，并对这2个文件做出修改，修改完毕后再次启动容器。
+您可以输入命令`ls -al`来查看这2个文件，首次运行后自动生成这2个文件，然后删除容器：`docker-compose down`，并对这2个文件做出修改，修改完毕后再次启动容器：`docker-compose up -d`
 
 **`.env`环境变量说明：**
 
