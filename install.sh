@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RESTIC_VERSION="0.16.3"
+RESTIC_VERSION="0.17.2"
 
 # 安装所需软件
 install_soft(){
