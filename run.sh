@@ -28,7 +28,13 @@ run(){
     # 写入定时任务
     rm -rf /etc/cron.d/xp-backup
     echo "${CRON_TIME_MYSQL} root cd /opt/xp-backup && ./backup_mysql.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
-    echo "${CRON_TIME_DIR} root cd /opt/xp-backup && ./restic_backup.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
+    # 判断类型是s3还是sftp
+    if [ ${STORAGE_TYPE} == 'sftp' ]; then
+        echo "${CRON_TIME_DIR} root cd /opt/xp-backup && ./restic_backup_sftp.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
+    else
+        echo "${CRON_TIME_DIR} root cd /opt/xp-backup && ./restic_backup.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
+    fi
+    # echo "${CRON_TIME_DIR} root cd /opt/xp-backup && ./restic_backup.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
     # 赋予执行权限
     chmod 0644 /etc/cron.d/xp-backup
     # 添加计划任务

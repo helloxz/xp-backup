@@ -28,23 +28,38 @@ ARG3=$3
 
 #初始化存储,格式为：s3.us-west-002.backblazeb2.com/bucket_name/dir
 S3_PATH=${AWS_S3_URL}/$AWS_BUCKET_NAME/${new_hostname}
+S3_CONN=s3:${S3_PATH}
+# SFTP 
+SFTP_CONN=sftp://${SFTP_USER}@${SFTP_HOST}:${SFTP_PORT}//${new_hostname}
 
-
+# 根据STORAGE_TYPE选择存储类型
+case ${STORAGE_TYPE} in
+	's3')
+		# S3
+		CONN=$S3_CONN
+	;;
+	'sftp')
+		# SFTP
+		CONN=$SFTP_CONN
+	;;
+	*)
+		CONN=$S3_CONN
+esac
 
 case ${ARG} in
 	'list')
 		#查看备份列表
-		restic -r s3:${S3_PATH} snapshots
+		restic -r ${CONN} snapshots
 	;;
 	'restore')
 		#恢复备份
-		restic -r s3:${S3_PATH} restore ${ARG2} --target ${ARG3}
+		restic -r ${CONN} restore ${ARG2} --target ${ARG3}
 	;;
 	'clear')
 		#解除锁定
-		restic -r s3:${S3_PATH} unlock
+		restic -r ${CONN} unlock
 		# 清理快照，并保存最后30个，如果保留3个月，则用--keep-monthly 3
-		restic -r s3:${S3_PATH} forget --prune --keep-last 60
+		restic -r ${CONN} forget --prune --keep-last 60
 	;;
 	*)
 		echo 'args not found!'

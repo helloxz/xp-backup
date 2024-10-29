@@ -33,6 +33,8 @@ services:
      - ./data:/opt/xp-backup/data
      - /data/apps:/opt/xp-backup/backup/apps
      - /data/backup/mysql:/opt/xp-backup/backup/mysql
+     # 如果使用SFTP备份方式，还需要挂载私钥文件
+     # - ./id_rsa:~/.ssh/id_rsa
    network_mode: "host"
 ```
 
@@ -51,6 +53,8 @@ services:
 **`.env`环境变量说明：**
 
 ```bash
+# 备份目标类型，支持s3、sftp，默认s3
+STORAGE_TYPE="s3"
 # MySQL连接地址
 DB_HOST=127.0.0.1
 # MySQL用户名
@@ -79,6 +83,12 @@ EXCLUDE_DIRS='--exclude=default'
 CRON_TIME_MYSQL="0 2 * * *"
 # 定时备份文件夹的时间，默认每天凌晨3点
 CRON_TIME_DIR="0 3 * * *"
+# SFTP用户名
+SFTP_USER="sftp_user"
+# SFTP主机
+SFTP_HOST="sftp_host"
+# SFTP端口
+SFTP_PORT=22
 ```
 
 **.restic_pass 密码文件** 
@@ -86,6 +96,20 @@ CRON_TIME_DIR="0 3 * * *"
 需要自行设置一个复制的字符串，默认为：`xp_backup_password`，一旦设置后，请不要随意修改。
 
 `.env`和`.restic_pass`设置完毕后，输入命令：`docker-compose restart`重启一次容器，至此已经全部设置完毕，容器将根据您的定时任务定期将MySQL数据库和文件数据加密备份至AWS S3
+
+**补充**
+
+如果您选择使用SFTP作为备份方式，需要进行以下操作：
+
+1. 修改`.env`为`STORAGE_TYPE="sftp"`
+2. 设置SFTP相关参数，包括`STORAGE_TYPE`/`SFTP_HOST`/`SFTP_PORT`
+3. 容器启动之前先执行`ssh -i /path/to/your_private_key <user>@<host> -p <port>`
+   1. `/path/to/your_private_key`私钥文件路径
+   2. `<user>`服务器用户名
+   3. `<host>`服务器IP
+   4. `<port>`服务器端口
+  
+> 注意：如果不提前执行SSH命令登录，可能会出现交互式询问，`restic`无法绕过将导致备份失败！
 
 ### 常用命令
 
