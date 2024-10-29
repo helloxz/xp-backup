@@ -30,20 +30,23 @@ ARG3=$3
 S3_PATH=${AWS_S3_URL}/$AWS_BUCKET_NAME/${new_hostname}
 S3_CONN=s3:${S3_PATH}
 # SFTP 
-SFTP_CONN=sftp://${SFTP_USER}@${SFTP_HOST}:${SFTP_PORT}//${new_hostname}
+SFTP_CONN=sftp://${SFTP_USER}@${SFTP_HOST}:${SFTP_PORT}/./${new_hostname}
 
 # 根据STORAGE_TYPE选择存储类型
 case ${STORAGE_TYPE} in
 	's3')
 		# S3
 		CONN=$S3_CONN
+		SHELL_NAME='restic_backup.sh'
 	;;
 	'sftp')
 		# SFTP
 		CONN=$SFTP_CONN
+		SHELL_NAME='restic_backup_sftp.sh'
 	;;
 	*)
 		CONN=$S3_CONN
+		SHELL_NAME='restic_backup.sh'
 esac
 
 case ${ARG} in
@@ -60,6 +63,9 @@ case ${ARG} in
 		restic -r ${CONN} unlock
 		# 清理快照，并保存最后30个，如果保留3个月，则用--keep-monthly 3
 		restic -r ${CONN} forget --prune --keep-last 60
+	;;
+	'backup')
+		bash ${SHELL_NAME}
 	;;
 	*)
 		echo 'args not found!'
