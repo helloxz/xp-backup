@@ -30,7 +30,7 @@ restic_backup(){
 	#备份数据
     # 需要备份的目录
     BACKUP_DIR="/opt/xp-backup/backup"
-    restic -r sftp://${SFTP_USER}@${SFTP_HOST}:${SFTP_PORT}/./${new_hostname} --verbose backup ${BACKUP_DIR}
+    restic ${EXCLUDE_DIRS} -r sftp://${SFTP_USER}@${SFTP_HOST}:${SFTP_PORT}/./${new_hostname} --verbose backup ${BACKUP_DIR}
 }
 
 # 运行
