@@ -35,8 +35,8 @@ services:
      - /data/apps:/opt/xp-backup/backup/apps
      - /data/backup/mysql:/opt/xp-backup/backup/mysql
      # 如果使用SFTP备份方式，还需要挂载私钥文件
-     # - ./id_rsa:/root/.ssh/id_rsa
-     # ~/.ssh/known_hosts:/root/.ssh/known_hosts:ro
+     # - ./data/id_rsa:/root/.ssh/id_rsa
+     # - ~/.ssh/known_hosts:/root/.ssh/known_hosts:ro
    network_mode: "host"
 ```
 

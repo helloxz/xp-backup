@@ -27,7 +27,11 @@ run(){
     
     # 写入定时任务
     rm -rf /etc/cron.d/xp-backup
-    echo "${CRON_TIME_MYSQL} root cd /opt/xp-backup && ./backup_mysql.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
+    # 如果CRON_TIME_MYSQL不为空才写入
+    if [ ! -z ${CRON_TIME_MYSQL} ]; then
+        echo "${CRON_TIME_MYSQL} root cd /opt/xp-backup && ./backup_mysql.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
+    fi
+    # echo "${CRON_TIME_MYSQL} root cd /opt/xp-backup && ./backup_mysql.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
     # 判断类型是s3还是sftp
     if [ ${STORAGE_TYPE} == 'sftp' ]; then
         echo "${CRON_TIME_DIR} root cd /opt/xp-backup && ./restic_backup_sftp.sh >> /var/log/xp-backup.log 2>&1" >> /etc/cron.d/xp-backup
